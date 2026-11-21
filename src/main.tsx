@@ -1833,6 +1833,20 @@ function LegalPage({ kind }: { kind: 'privacy' | 'terms' }) {
   );
 }
 
+function getPasswordStrength(password: string): { score: number; label: string; color: string; hint: string } {
+  const criteria = [
+    password.length >= 8,
+    password.length >= 12,
+    /[A-Z]/.test(password) && /[a-z]/.test(password),
+    /\d/.test(password) && /[^A-Za-z0-9]/.test(password),
+  ];
+  const score = criteria.filter(Boolean).length;
+  if (score <= 1) return { score, label: 'Weak', color: 'var(--form-error)', hint: 'Add more characters, numbers, and symbols.' };
+  if (score === 2) return { score, label: 'Fair', color: 'var(--warning)', hint: 'Add another word or a symbol to make it stronger.' };
+  if (score === 3) return { score, label: 'Strong', color: 'var(--accent)', hint: 'Good choice. A longer passphrase is even better.' };
+  return { score, label: 'Very strong', color: 'var(--success)', hint: 'This password meets the recommended strength.' };
+}
+
 function ResetPasswordPage() {
   const [status, setStatus] = useState<'checking' | 'ready' | 'saving' | 'success' | 'error'>('checking');
   const [message, setMessage] = useState('Verifying your secure recovery link…');
@@ -1840,6 +1854,9 @@ function ResetPasswordPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [desktopHandoff, setDesktopHandoff] = useState<'idle' | 'opening' | 'unavailable'>('idle');
+
+  const passwordStrength = getPasswordStrength(password);
 
   useEffect(() => {
     let active = true;
@@ -1925,6 +1942,18 @@ function ResetPasswordPage() {
 
   const isBusy = status === 'checking' || status === 'saving';
 
+  const continueToDesktopApp = () => {
+    setDesktopHandoff('opening');
+    try {
+      window.location.href = 'taxflow://auth/password-reset-success';
+      window.setTimeout(() => {
+        if (document.visibilityState === 'visible') setDesktopHandoff('unavailable');
+      }, 1800);
+    } catch {
+      setDesktopHandoff('unavailable');
+    }
+  };
+
   return (
     <main className="reset-page">
       <div className="reset-orbit reset-orbit-one" aria-hidden="true" />
@@ -1977,6 +2006,18 @@ function ResetPasswordPage() {
                 </button>
               </div>
               <span className="reset-help">Use at least 8 characters. A longer phrase is stronger.</span>
+              {password && (
+                <div className="reset-password-strength" aria-live="polite">
+                  <div className="reset-strength-header">
+                    <span>Password strength</span>
+                    <strong style={{ color: passwordStrength.color }}>{passwordStrength.label}</strong>
+                  </div>
+                  <div className="reset-strength-bars" aria-hidden="true">
+                    {[1, 2, 3, 4].map((level) => <span key={level} style={{ background: passwordStrength.score >= level ? passwordStrength.color : undefined }} />)}
+                  </div>
+                  <span className="reset-strength-hint">{passwordStrength.hint}</span>
+                </div>
+              )}
 
               <label htmlFor="confirm-password">Confirm password</label>
               <div className="reset-input-wrap">
@@ -2002,7 +2043,14 @@ function ResetPasswordPage() {
             </form>
           ) : null}
 
-          {status === 'success' && <a className="button button-dark reset-submit reset-success-link" href="/">Return to TaxFlow AI <Icon name="arrow" size={17} /></a>}
+          {status === 'success' && (
+            <div className="reset-success-actions">
+              <button className="button button-dark reset-submit reset-success-link" type="button" onClick={continueToDesktopApp} disabled={desktopHandoff === 'opening'}>
+                {desktopHandoff === 'opening' ? 'Opening TaxFlow AI…' : 'Continue to TaxFlow AI'} <Icon name="arrow" size={17} />
+              </button>
+              {desktopHandoff === 'unavailable' && <p className="reset-handoff-error" role="alert">TaxFlow AI could not be opened on this computer. Open the installed app manually, then sign in with your new password.</p>}
+            </div>
+          )}
           {status === 'error' && <a className="reset-retry-link" href="/">Return to TaxFlow AI</a>}
           <p className="reset-security-note"><Icon name="shield" size={14} /> TaxFlow AI will never ask you to share your password by email.</p>
         </div>
