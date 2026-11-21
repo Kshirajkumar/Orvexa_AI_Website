@@ -349,7 +349,7 @@ export function ClientPortalPage() {
       .catch((requestError: unknown) => {
         if (!disposed) {
           setPortal(null);
-          if (requestError instanceof PortalRequestError && ['portal_access_revoked', 'portal_access_paused'].includes(requestError.code || '')) {
+          if (requestError instanceof PortalRequestError && ['client_deleted', 'portal_access_revoked', 'portal_access_paused'].includes(requestError.code || '')) {
             void handlePortalAccessRevoked(requestError.message, requestError.code);
           } else {
             setError(requestError instanceof Error ? requestError.message : 'Could not verify your portal access.');
@@ -373,7 +373,7 @@ export function ClientPortalPage() {
         ));
       } catch (requestError) {
         if (disposed) return;
-        if (requestError instanceof PortalRequestError && ['portal_access_revoked', 'portal_access_paused'].includes(requestError.code || '')) {
+        if (requestError instanceof PortalRequestError && ['client_deleted', 'portal_access_revoked', 'portal_access_paused'].includes(requestError.code || '')) {
           await handlePortalAccessRevoked(requestError.message, requestError.code);
         }
         // Temporary network/5xx failures do not sign the client out. The next
@@ -533,7 +533,7 @@ export function ClientPortalPage() {
         setError('Your file was received, but the upload history could not refresh. Reload this page to check its status.');
       }
     } catch (requestError) {
-      if (requestError instanceof PortalRequestError && requestError.code === 'portal_access_revoked') {
+      if (requestError instanceof PortalRequestError && ['client_deleted', 'portal_access_revoked'].includes(requestError.code || '')) {
         await handlePortalAccessRevoked(requestError.message);
       } else {
         setError(requestError instanceof Error
