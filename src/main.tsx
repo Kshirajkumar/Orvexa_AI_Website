@@ -433,6 +433,7 @@ function WaitlistForm({ initialEmail = '' }: { initialEmail?: string }) {
   const [state, setState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
   const [alreadyJoined, setAlreadyJoined] = useState(false);
+  const [consentChecked, setConsentChecked] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<'name' | 'email' | 'country' | 'consent', string>>>({});
   const [validationAttempt, setValidationAttempt] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
@@ -501,6 +502,7 @@ function WaitlistForm({ initialEmail = '' }: { initialEmail?: string }) {
       setState('success');
       setMessage('Thanks. If you are a real visitor, your request can be submitted using the form.');
       form.reset();
+      setConsentChecked(false);
       return;
     }
     const email = String(data.email).trim().toLowerCase();
@@ -550,6 +552,7 @@ function WaitlistForm({ initialEmail = '' }: { initialEmail?: string }) {
       }
       setState('success');
       form.reset();
+      setConsentChecked(false);
     } catch (error) {
       setState('error');
       console.error('Waitlist submission failed:', error);
@@ -666,12 +669,14 @@ function WaitlistForm({ initialEmail = '' }: { initialEmail?: string }) {
             type="checkbox"
             name="consent"
             value="true"
+            checked={consentChecked}
             required
             aria-invalid={Boolean(fieldErrors.consent)}
             aria-describedby={fieldErrors.consent ? 'waitlist-consent-error' : undefined}
             onChange={(event) => {
               if (!validationAttempt) return;
               const checked = event.currentTarget.checked;
+              setConsentChecked(checked);
               setFieldErrors((current) => ({ ...current, consent: checked ? undefined : 'Consent is required to join the waitlist.' }));
             }}
           />
@@ -1760,6 +1765,22 @@ function LegalPage({ kind }: { kind: 'privacy' | 'terms' }) {
         paragraphs: ['The website host and any configured waitlist provider process information needed to deliver the site and store submissions. Client-portal files are transmitted to the Taxflow backend and stored in a private Supabase Storage bucket; they are then available to the authorized practice and may be copied to its configured desktop vault. Hosting, API, authentication, and storage providers process information to operate these services under their own terms. The browser does not receive the backend service-role key or direct access to private file storage.']
       },
       {
+        title: 'TaxFlow workspace data',
+        paragraphs: ['When you use the TaxFlow desktop workspace, we process account details such as your name, email address, practice type, membership number when provided, authentication records, onboarding status, and security logs. If you use client management, we process the client details you enter, including names, contact details, tax identifiers, filing categories, and the relationship between your practice and its clients.']
+      },
+      {
+        title: 'Documents and AI-assisted reading',
+        paragraphs: ['Files uploaded through an authorized client portal or desktop workflow may include tax records, invoices, Form 16 documents, bank statements, notices, and other information chosen by the practice or client. The product stores the original file and version history in private storage, records file metadata and audit events, and may create structured extraction results. AI-assisted extraction is used to prepare information for professional review; it is not a tax decision-maker and should not be treated as verified until the responsible professional reviews it.']
+      },
+      {
+        title: 'When information is shared',
+        paragraphs: ['We do not sell personal information or client documents and do not share them for unrelated advertising. Information is shared only as needed to provide a requested workflow: with the authorized practice and its linked users, with infrastructure providers such as Supabase, Vercel, Resend, and configured AI or messaging providers, and where required by law or necessary to protect the service. Providers receive only the information needed for their configured function and operate under their own terms and privacy notices.']
+      },
+      {
+        title: 'Security, retention, and deletion',
+        paragraphs: ['TaxFlow uses authenticated access, ownership checks, private storage, server-side secrets, rate limits, audit records, and versioned document handling as product safeguards. No internet service can promise absolute security. Practices control their client records and should follow their professional retention duties. Account or client deletion requests trigger the configured cleanup workflow for linked metadata, portal access, files, and related records; backup or provider retention may take longer to expire. Contact the practice that controls a client matter, or reply to a TaxFlow early-access email for a website waitlist request.']
+      },
+      {
         title: 'Analytics and site performance',
         paragraphs: ['When enabled for a Vercel deployment, this website uses Vercel Web Analytics for aggregated page-view reports and Speed Insights for performance measurements such as Web Vitals. Vercel may process page paths, referrers, browser and device details, network speed, approximate country, and event timestamps for these reports. Vercel states that Web Analytics does not use third-party cookies and that its analytics and Speed Insights data are not designed to identify individual visitors; see Vercel’s privacy documentation for details. Email query parameters used to prefill the waitlist are removed from both analytics event URLs. These tools are not loaded on the invitation-only /portal, and this website does not configure custom analytics events.']
       },
@@ -1768,8 +1789,8 @@ function LegalPage({ kind }: { kind: 'privacy' | 'terms' }) {
         paragraphs: ['You can choose not to join, and you can stop receiving updates by following the instructions in an email from TaxFlow AI. To ask for a waitlist record to be removed, reply to an early-access email you received from us. For portal access or document-retention requests, contact the practice that invited you; revoking portal access prevents future portal requests but does not itself delete files already received or copies saved by the practice. A fixed deletion schedule has not yet been published.']
       },
       {
-        title: 'Changes and questions',
-        paragraphs: ['We may update this notice as the website, waitlist, and portal change. The date above identifies the latest revision. Use the portal only when invited by your practice and only for information you are authorized to provide.']
+        title: 'Choices, changes, and questions',
+        paragraphs: ['You may decline to provide optional information, request access or correction where applicable, and ask for deletion through the practice that controls the relevant workspace or client matter. We may update this notice as the website, waitlist, and product change. The date above identifies the latest revision. Use the portal only when invited by your practice and only for information you are authorized to provide. This plain-language notice is not legal advice; practices remain responsible for their notices, lawful basis, client instructions, and professional retention obligations.']
       }
     ]
     : [
@@ -1794,6 +1815,18 @@ function LegalPage({ kind }: { kind: 'privacy' | 'terms' }) {
         paragraphs: ['Names, records, figures, and interface screens shown on the site may be illustrative. Current testing, planned features, integrations, security arrangements, and availability are described as accurately as possible but can change. The website may rely on third-party hosting and waitlist services, which are subject to their own terms.']
       },
       {
+        title: 'Workspace responsibility and review',
+        paragraphs: ['A practice is responsible for the accounts it creates, the clients it links, the documents it uploads or requests, its user permissions, its retention decisions, and the instructions it gives clients. AI-assisted extraction, normalization, reminders, generated drafts, and other automation are preparation aids. You must review source documents, correct errors, and approve work before relying on it or submitting anything to a government, banking, or other external system.']
+      },
+      {
+        title: 'Acceptable use and access security',
+        paragraphs: ['Do not share credentials, confirmation codes, private portal links, or client documents with unauthorized people. Do not upload information you are not authorized to provide, attempt to bypass ownership controls, probe private storage, interfere with messaging or email delivery, or use the service for unlawful, harmful, deceptive, or abusive activity. We may pause access to protect users, records, providers, or the service.']
+      },
+      {
+        title: 'Availability, changes, and deletion',
+        paragraphs: ['The service is provided as it is developed and may have maintenance, provider outages, rate limits, or feature changes. We do not promise that every planned feature, integration, extraction result, or filing format will be available or error-free. A practice may request deletion through the configured account or client-deletion workflow, subject to legal, audit, backup, and provider retention requirements.']
+      },
+      {
         title: 'Updates to these terms',
         paragraphs: ['We may revise these terms when the site or waitlist changes. Continued use after an update means you are viewing the current website terms. Nothing in this notice limits rights that cannot be excluded under applicable law. These plain-language terms should be reviewed by qualified counsel before production use.']
       }
@@ -1811,7 +1844,7 @@ function LegalPage({ kind }: { kind: 'privacy' | 'terms' }) {
             <p>{isPrivacy
               ? 'Here is what the TaxFlow AI website collects when you join the waitlist, how it is used, and the choices you have.'
               : 'A plain-language guide to using this website and joining the early-access list while TaxFlow AI is in development.'}</p>
-            <span className="legal-updated">LAST UPDATED · {isPrivacy ? '9 NOVEMBER 2026' : '19 OCTOBER 2026'}</span>
+            <span className="legal-updated">LAST UPDATED · 21 NOVEMBER 2026</span>
           </div>
         </section>
         <section className="legal-sections ledger-wrap" aria-label={isPrivacy ? 'Privacy notice details' : 'Terms of use details'}>
@@ -1834,12 +1867,7 @@ function LegalPage({ kind }: { kind: 'privacy' | 'terms' }) {
 }
 
 function getPasswordStrength(password: string): { score: number; label: string; color: string; hint: string } {
-  const criteria = [
-    password.length >= 8,
-    password.length >= 12,
-    /[A-Z]/.test(password) && /[a-z]/.test(password),
-    /\d/.test(password) && /[^A-Za-z0-9]/.test(password),
-  ];
+  const criteria = [password.length >= 8, password.length >= 12, /[A-Z]/.test(password) && /[a-z]/.test(password), /\d/.test(password) && /[^A-Za-z0-9]/.test(password)];
   const score = criteria.filter(Boolean).length;
   if (score <= 1) return { score, label: 'Weak', color: 'var(--form-error)', hint: 'Add more characters, numbers, and symbols.' };
   if (score === 2) return { score, label: 'Fair', color: 'var(--warning)', hint: 'Add another word or a symbol to make it stronger.' };
@@ -1855,7 +1883,6 @@ function ResetPasswordPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [desktopHandoff, setDesktopHandoff] = useState<'idle' | 'opening' | 'unavailable'>('idle');
-
   const passwordStrength = getPasswordStrength(password);
 
   useEffect(() => {
@@ -2006,6 +2033,13 @@ function ResetPasswordPage() {
                 </button>
               </div>
               <span className="reset-help">Use at least 8 characters. A longer phrase is stronger.</span>
+              {password && (
+                <div className="reset-password-strength" aria-live="polite">
+                  <div className="reset-strength-header"><span>Password strength</span><strong style={{ color: passwordStrength.color }}>{passwordStrength.label}</strong></div>
+                  <div className="reset-strength-bars" aria-hidden="true">{[1, 2, 3, 4].map((level) => <span key={level} style={{ background: passwordStrength.score >= level ? passwordStrength.color : undefined }} />)}</div>
+                  <span className="reset-strength-hint">{passwordStrength.hint}</span>
+                </div>
+              )}
               {password && (
                 <div className="reset-password-strength" aria-live="polite">
                   <div className="reset-strength-header">
