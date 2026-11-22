@@ -351,9 +351,9 @@ function Header({ productPage = false }: { productPage?: boolean }) {
 
   return (
     <header className="site-header">
-      <a href="/" className="wordmark" aria-label="Taxflow home">
+      <a href="/" className="wordmark" aria-label="Orvexa home">
         <BrandGlyph />
-        <span>TaxFlow</span><em className="brand-ai">AI</em>
+        <span>Orvexa</span>
       </a>
       <button
         className="mobile-menu-button"
@@ -386,7 +386,7 @@ function Header({ productPage = false }: { productPage?: boolean }) {
 
 function DashboardPreview() {
   return (
-    <div className="preview-shell" aria-label="Illustration of the Taxflow review workspace">
+      <div className="preview-shell" aria-label="Illustration of the Orvexa review workspace">
       <div className="preview-topbar">
         <div className="preview-brand"><span className="mini-mark">t.</span><span>Practice workspace</span></div>
         <span className="preview-period">AUG 2026 <span className="period-dot" /></span>
@@ -548,7 +548,7 @@ function WaitlistForm({ initialEmail = '' }: { initialEmail?: string }) {
         setAlreadyJoined(duplicate);
         setMessage(duplicate
           ? 'This email address is already on this browser’s preview list.'
-          : 'Thanks for your interest. This preview saved your request in this browser only; it has not been sent to Taxflow.');
+      : 'Thanks for your interest. This preview saved your request in this browser only; it has not been sent to Orvexa.');
       }
       setState('success');
       form.reset();
@@ -574,7 +574,7 @@ function WaitlistForm({ initialEmail = '' }: { initialEmail?: string }) {
         <h3>{alreadyJoined ? 'You’re already on the list.' : 'You’re on the list.'}</h3>
         <p>{message}</p>
         <div className="success-next-step"><span><Icon name={alreadyJoined ? 'check' : 'mail'} size={17} /></span><p><strong>{alreadyJoined ? 'You’re all set' : 'What happens next'}</strong><br />{alreadyJoined ? 'There’s no need to submit this email again.' : 'We’ll email you when there’s a meaningful early-access update.'}</p></div>
-        <a className="success-home-link" href="/">Back to TaxFlow <Icon name="arrow" size={16} /></a>
+      <a className="success-home-link" href="/">Back to Orvexa <Icon name="arrow" size={16} /></a>
       </div>
     );
   }
@@ -680,7 +680,7 @@ function WaitlistForm({ initialEmail = '' }: { initialEmail?: string }) {
               setFieldErrors((current) => ({ ...current, consent: checked ? undefined : 'Consent is required to join the waitlist.' }));
             }}
           />
-          <span>I agree that Taxflow AI may email me about early access. See the <a href="/privacy">privacy notice</a>.</span>
+      <span>I agree that Orvexa AI may email me about early access. See the <a href="/privacy">privacy notice</a>.</span>
         </label>
         {fieldErrors.consent && <span className="field-error" id="waitlist-consent-error">{fieldErrors.consent}</span>}
       </div>
@@ -746,13 +746,13 @@ function Footer({ productPage = false }: { productPage?: boolean }) {
     };
   }, []);
 
-  const wordmark = 'TaxFlow';
+  const wordmark = 'Orvexa';
 
   return (
     <footer className="site-footer">
       <div className="footer-brand-block">
-        <a href="/" className="wordmark footer-brand" aria-label="TaxFlow AI home">
-          <BrandGlyph size={28} /><span>TaxFlow</span><em className="brand-ai">AI</em>
+        <a href="/" className="wordmark footer-brand" aria-label="Orvexa home">
+          <BrandGlyph size={28} /><span>Orvexa</span>
         </a>
         <p>Document collection, reading, and review for accounting practices.</p>
       </div>
@@ -761,16 +761,15 @@ function Footer({ productPage = false }: { productPage?: boolean }) {
       <div className="footer-group"><h3>Trust</h3><a href={productPage ? '/#security' : '#security'}>Security</a><a href={productPage ? '/#faq' : '#faq'}>FAQ</a><a href={productPage ? '/#status' : '#status'}>Product status</a></div>
       <div className="footer-group"><h3>Legal</h3><a href="/privacy">Privacy notice</a><a href="/terms">Terms of use</a></div>
       <div className="footer-wordmark-section" ref={wordmarkRef}>
-        <div className="footer-wordmark" role="img" aria-label="TaxFlow AI">
+        <div className="footer-wordmark" role="img" aria-label="Orvexa">
           <span className="footer-wordmark-brand" aria-hidden="true" style={{ opacity: Math.min(1, typingProgress * 9), transform: `translateY(${(1 - Math.min(1, typingProgress * 9)) * 0.08}em)` }}><BrandGlyph size={80} /></span>
           <span className="footer-wordmark-name" aria-hidden="true">{[...wordmark].map((letter, index) => {
             const letterProgress = Math.max(0, Math.min(1, typingProgress * 9 - index - 1));
             return <span className="footer-wordmark-letter" key={`${letter}-${index}`} style={{ opacity: letterProgress, transform: `translateY(${(1 - letterProgress) * 0.08}em)` }}>{letter}</span>;
           })}</span>
-          <span className="footer-wordmark-ai" aria-hidden="true" style={{ opacity: Math.max(0, Math.min(1, typingProgress * 9 - wordmark.length - 1)) }}>AI</span>
         </div>
       </div>
-      <div className="footer-bottom"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/sitemap">All pages</a><span>© {new Date().getFullYear()} TaxFlow AI</span><span>Names, files, and figures shown here are illustrative.</span></div>
+        <div className="footer-bottom"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/sitemap">All pages</a><span>© {new Date().getFullYear()} Orvexa</span><span>Names, files, and figures shown here are illustrative.</span></div>
     </footer>
   );
 }
@@ -788,7 +787,7 @@ function WaitlistPage() {
             <a href="/" className="waitlist-back"><Icon name="arrow" size={15} /> Back to the website</a>
             <span className="eyebrow"><span className="status-dot-live" /> PRIVATE BETA · EARLY ACCESS</span>
             <h1>Make room for<br /><span>the work that matters.</span></h1>
-            <p>We’re building TaxFlow for solo Chartered Accountants to collect documents, review tax work, and keep client workflows in one clear place. Join the waitlist to hear about early access.</p>
+        <p>We’re building Orvexa for solo Chartered Accountants to collect documents, review tax work, and keep client workflows in one clear place. Join the waitlist to hear about early access.</p>
             <ul className="waitlist-benefits">
               <li><span><Icon name="mail" size={16} /></span><span><strong>A thoughtful update when it matters</strong><small>We’ll only write when there is real news to share.</small></span></li>
               <li><span><Icon name="eye" size={16} /></span><span><strong>A chance to shape the product</strong><small>Early feedback helps us build around real practice workflows.</small></span></li>
@@ -796,7 +795,7 @@ function WaitlistPage() {
             </ul>
           </div>
           <div className="waitlist-card waitlist-standalone-card" data-reveal>
-            <div className="waitlist-form-heading"><span className="waitlist-card-icon"><Icon name="spark" size={18} /></span><div><span className="eyebrow">TAXFLOW AI · EARLY ACCESS</span><h2>Join the waitlist</h2></div></div>
+        <div className="waitlist-form-heading"><span className="waitlist-card-icon"><Icon name="spark" size={18} /></span><div><span className="eyebrow">ORVEXA AI · EARLY ACCESS</span><h2>Join the waitlist</h2></div></div>
             <p className="waitlist-form-intro">Your name, email, and consent are all we need. Your CA role is already set.</p>
             <WaitlistForm initialEmail={email} />
             <p className="waitlist-privacy-note"><Icon name="shield" size={14} /> Your details are used only for early-access updates. <a href="/privacy">Read our privacy notice.</a></p>
@@ -823,7 +822,7 @@ function NotFoundPage() {
             <a className="button button-dark" href="/">Back to home <Icon name="arrow" size={16} /></a>
             <a className="btn btn-ghost" href="/waitlist">Join the waitlist <Icon name="arrow" size={16} /></a>
           </div>
-          <div className="not-found-foot"><BrandGlyph size={23} /><span>TaxFlow AI · Practice, with less busywork.</span></div>
+        <div className="not-found-foot"><BrandGlyph size={23} /><span>Orvexa AI · Practice, with less busywork.</span></div>
         </section>
       </main>
       <Footer />
@@ -843,9 +842,9 @@ function SiteMapPage() {
         <section className="site-directory-hero">
           <div className="ledger-wrap" data-reveal>
             <a href="/" className="back-link"><Icon name="arrow" size={15} /> Back to the website</a>
-            <span className="eyebrow">TAXFLOW AI · WEBSITE DIRECTORY</span>
+        <span className="eyebrow">ORVEXA AI · WEBSITE DIRECTORY</span>
             <h1>Find the right<br /><em>place to start.</em></h1>
-            <p>Explore the product, its workflow, early access, and the information that helps you decide if TaxFlow AI fits your practice.</p>
+        <p>Explore the product, its workflow, early access, and the information that helps you decide if Orvexa AI fits your practice.</p>
           </div>
         </section>
         <div className="ledger-wrap site-directory-body">
@@ -886,11 +885,11 @@ function GetAppPage() {
             <a href="/" className="back-link"><Icon name="arrow" size={15} /> Back to overview</a>
             <span className="eyebrow"><span className="status-dot-live" /> BUILT FOR ACCOUNTING PRACTICES</span>
             <h1>One workspace for<br /><em>the work behind the numbers.</em></h1>
-            <p>TaxFlow is being designed to bring document collection, AI-assisted preparation and review into a more connected practice workflow. The app is not yet available to install.</p>
+        <p>Orvexa is being designed to bring document collection, AI-assisted preparation and review into a more connected practice workflow. The app is not yet available to install.</p>
             <div className="get-app-action">
               <button className="get-app-button" type="button" onClick={() => setShowComingSoonMessage(true)}>
                 <span className="get-app-button-icon"><Icon name="download" size={18} /></span>
-                <span>Get the TaxFlow app</span>
+        <span>Get the Orvexa app</span>
                 <Icon name="arrow" size={17} />
               </button>
               <span className="coming-soon-badge"><i /> COMING SOON</span>
@@ -906,7 +905,7 @@ function GetAppPage() {
           </div>
           <div className="get-app-visual" data-reveal>
             <div className="get-app-window">
-              <div className="get-app-window-bar"><span><i /><i /><i /></span><strong>TaxFlow · Practice workspace</strong><span className="concept-label">CONCEPT</span></div>
+        <div className="get-app-window-bar"><span><i /><i /><i /></span><strong>Orvexa · Practice workspace</strong><span className="concept-label">CONCEPT</span></div>
               <div className="get-app-window-body">
                 <div className="get-app-side">
                   <span className="get-app-mark"><BrandGlyph size={22} /></span>
@@ -1000,10 +999,10 @@ function WorkflowComparisonPage() {
             <a href="/" className="back-link"><Icon name="arrow" size={15} /> Back to overview</a>
             <span className="eyebrow">A PRACTICAL, STEP-BY-STEP COMPARISON</span>
             <h1>Same professional judgement.<br /><em>Less disconnected work.</em></h1>
-            <p>See how a typical document-heavy practice workflow can differ from the connected process TaxFlow is being designed to support.</p>
+        <p>See how a typical document-heavy practice workflow can differ from the connected process Orvexa is being designed to support.</p>
             <div className="comparison-page-legend">
               <span><i className="legend-dot manual" /> Common manual workflow</span>
-              <span><i className="legend-dot assisted" /> TaxFlow product direction</span>
+        <span><i className="legend-dot assisted" /> Orvexa product direction</span>
             </div>
           </div>
         </section>
@@ -1020,7 +1019,7 @@ function WorkflowComparisonPage() {
                   </div>
                   <div className="comparison-journey-arrow" aria-hidden="true"><Icon name="arrow" size={18} /></div>
                   <div className="comparison-journey-card assisted">
-                    <span className="comparison-card-label"><Icon name={row.icon} size={15} /> TAXFLOW DIRECTION</span>
+        <span className="comparison-card-label"><Icon name={row.icon} size={15} /> ORVEXA DIRECTION</span>
                     <p>{row.taxflow}</p>
                     <span className="comparison-row-status">{row.status}</span>
                   </div>
@@ -1030,7 +1029,7 @@ function WorkflowComparisonPage() {
           ))}
           <div className="comparison-page-note" data-reveal>
             <Icon name="info" size={17} />
-            <p><strong>A fair comparison, not a performance claim.</strong><br />Practices work in different ways. This describes common manual steps and TaxFlow’s product direction; it is not a measured time-saving study or a claim that every listed capability is available today.</p>
+        <p><strong>A fair comparison, not a performance claim.</strong><br />Practices work in different ways. This describes common manual steps and Orvexa’s product direction; it is not a measured time-saving study or a claim that every listed capability is available today.</p>
           </div>
         </section>
         <section className="comparison-human-section">
@@ -1040,7 +1039,7 @@ function WorkflowComparisonPage() {
             <div className="comparison-human-points">
               <div><Icon name="eye" size={19} /><strong>Review the source</strong><p>Original documents stay part of the review context.</p></div>
               <div><Icon name="check" size={19} /><strong>Correct the details</strong><p>Extracted information is something to inspect, not assume.</p></div>
-              <div><Icon name="shield" size={19} /><strong>Approve consequential work</strong><p>Taxflow is not designed to file without explicit human approval.</p></div>
+        <div><Icon name="shield" size={19} /><strong>Approve consequential work</strong><p>Orvexa is not designed to file without explicit human approval.</p></div>
             </div>
             <div className="comparison-human-actions">
               <a className="button button-dark" href="/get-app">Get the app <Icon name="arrow" size={16} /></a>
@@ -1201,7 +1200,7 @@ function WorkflowTabs() {
 
   return (
     <div className="workflow-demo">
-      <div className="workflow-tabs" role="tablist" aria-label="How TaxFlow AI works" onKeyDown={handleKeyDown}>
+        <div className="workflow-tabs" role="tablist" aria-label="How Orvexa AI works" onKeyDown={handleKeyDown}>
         {workflowTabs.map((tab, index) => (
           <button
             aria-controls="workflow-tab-panel"
@@ -1232,7 +1231,7 @@ function WorkflowTabs() {
         <div className="workflow-preview-body">
           {active === 0 && (
             <div className="chat-demo">
-              <div className="chat-message"><span className="chat-sender">TAXFLOW REMINDER</span>Hi! When you’re ready, please share this month’s purchase invoices. A photo is fine.</div>
+        <div className="chat-message"><span className="chat-sender">ORVEXA REMINDER</span>Hi! When you’re ready, please share this month’s purchase invoices. A photo is fine.</div>
               <div className="chat-message chat-message-client"><span className="chat-sender">SAMPLE TRADERS</span><span className="chat-file"><Icon name="file" size={15} />INV-0417.jpg</span></div>
               <div className="chat-system"><Icon name="folder" size={14} /> Document linked to Sample Traders</div>
             </div>
@@ -1326,7 +1325,7 @@ function MarketingHome() {
                 <a className="btn btn-primary btn-lg" href="/waitlist">Join the waitlist <span className="arrow">→</span></a>
                 <a className="btn btn-ghost btn-lg" href="#how-it-works">See how it works</a>
               </div>
-              <p className="hero-fine">Free to join. No payment details. We only email you about TaxFlow AI.</p>
+      <p className="hero-fine">Free to join. No payment details. We only email you about Orvexa AI.</p>
               <ul className="hero-facts">
                 <li>Built for accounting practices</li><li>You approve important work</li><li>India-first product direction</li>
               </ul>
@@ -1340,9 +1339,9 @@ function MarketingHome() {
           <div className="ledger-wrap">
             <div className="section-intro" data-reveal><span className="eyebrow">THE WORK AROUND THE WORK</span><h2 id="repeated-work-title">Three chores that repeat<br />for every client, every month.</h2><p className="lede">None of them is accounting. All of them take time before the accounting can start.</p></div>
             <div className="pain-grid">
-              <article className="pain-card" data-reveal><span className="pain-number">01 / CHASING</span><h3>Asking for the same documents again.</h3><p className="pain-quote">“It’s the 20th, and the purchase bills still haven’t arrived.”</p><div className="pain-answer"><span>WITH TAXFLOW</span>Scheduled document requests and incoming client files can live in one workflow.</div></article>
-              <article className="pain-card" data-reveal style={{ '--delay': '80ms' } as React.CSSProperties}><span className="pain-number">02 / RETYPING</span><h3>Copying numbers off every invoice.</h3><p className="pain-quote">“Read each photo, then type names, dates, and totals into a sheet.”</p><div className="pain-answer"><span>WITH TAXFLOW</span>AI-assisted extraction can prepare fields for the accountant to check.</div></article>
-              <article className="pain-card" data-reveal style={{ '--delay': '160ms' } as React.CSSProperties}><span className="pain-number">03 / LOSING TRACK</span><h3>Documents scattered across places.</h3><p className="pain-quote">“One bill in a chat, one in an email, another in someone’s downloads.”</p><div className="pain-answer"><span>WITH TAXFLOW</span>Organise documents by client and period, while keeping the source close.</div></article>
+              <article className="pain-card" data-reveal><span className="pain-number">01 / CHASING</span><h3>Asking for the same documents again.</h3><p className="pain-quote">“It’s the 20th, and the purchase bills still haven’t arrived.”</p><div className="pain-answer"><span>WITH ORVEXA</span>Scheduled document requests and incoming client files can live in one workflow.</div></article>
+              <article className="pain-card" data-reveal style={{ '--delay': '80ms' } as React.CSSProperties}><span className="pain-number">02 / RETYPING</span><h3>Copying numbers off every invoice.</h3><p className="pain-quote">“Read each photo, then type names, dates, and totals into a sheet.”</p><div className="pain-answer"><span>WITH ORVEXA</span>AI-assisted extraction can prepare fields for the accountant to check.</div></article>
+              <article className="pain-card" data-reveal style={{ '--delay': '160ms' } as React.CSSProperties}><span className="pain-number">03 / LOSING TRACK</span><h3>Documents scattered across places.</h3><p className="pain-quote">“One bill in a chat, one in an email, another in someone’s downloads.”</p><div className="pain-answer"><span>WITH ORVEXA</span>Organise documents by client and period, while keeping the source close.</div></article>
             </div>
           </div>
         </section>
@@ -1399,7 +1398,7 @@ function MarketingHome() {
 
         <section className="ledger-section" id="features">
           <div className="ledger-wrap">
-            <div className="section-intro" data-reveal><span className="eyebrow">FEATURES</span><h2>What’s in testing.<br />What’s still on the roadmap.</h2><p className="lede">Taxflow is a working demo, not a fully released product. We label current testing and planned capabilities separately.</p></div>
+            <div className="section-intro" data-reveal><span className="eyebrow">FEATURES</span><h2>What’s in testing.<br />What’s still on the roadmap.</h2><p className="lede">Orvexa is a working demo, not a fully released product. We label current testing and planned capabilities separately.</p></div>
             <div className="feature-group-heading"><h3>Working in internal testing</h3><span className="status-pill status-current">Current testing</span></div>
             <div className="tested-feature-grid">
               {demoFeatures.map((feature, index) => (
@@ -1425,7 +1424,7 @@ function MarketingHome() {
               <article data-reveal><Icon name="eye" size={21} /><h3>The source stays visible</h3><p>Review extracted details alongside the original document and check what a value came from.</p></article>
               <article data-reveal style={{ '--delay': '60ms' } as React.CSSProperties}><Icon name="shield" size={21} /><h3>A person approves</h3><p>AI preparation does not replace a human approval step for consequential work.</p></article>
               <article data-reveal style={{ '--delay': '120ms' } as React.CSSProperties}><Icon name="calculator" size={21} /><h3>Reading is not calculation</h3><p>Tax calculations and filing rules require dedicated validation—not AI guesses.</p></article>
-              <article data-reveal style={{ '--delay': '180ms' } as React.CSSProperties}><Icon name="lock" size={21} /><h3>Be clear about the limits</h3><p>TaxFlow AI is in development; independent certification and live government filing are not claimed.</p></article>
+              <article data-reveal style={{ '--delay': '180ms' } as React.CSSProperties}><Icon name="lock" size={21} /><h3>Be clear about the limits</h3><p>Orvexa AI is in development; independent certification and live government filing are not claimed.</p></article>
             </div>
             <div className="honest-panel" data-reveal><h3>What is not live today</h3><p>Government filing is not live. The broader roadmap, production security hardening, and public availability are phased product goals—not features to assume are available.</p></div>
           </div>
@@ -1433,7 +1432,7 @@ function MarketingHome() {
 
         <section className="ledger-section ledger-section-tint" id="status">
           <div className="ledger-wrap">
-            <div className="section-intro" data-reveal><span className="eyebrow">PRODUCT STATUS · 19 OCTOBER 2026</span><h2>Where TaxFlow AI is today.</h2><p className="lede">A working demo in internal testing, moving toward security and quality checks before a private beta.</p></div>
+            <div className="section-intro" data-reveal><span className="eyebrow">PRODUCT STATUS · 19 OCTOBER 2026</span><h2>Where Orvexa AI is today.</h2><p className="lede">A working demo in internal testing, moving toward security and quality checks before a private beta.</p></div>
             <div className="status-columns">
               <article className="status-column status-column-live" data-reveal><span className="status-pill status-current">IN INTERNAL TESTING</span><h3>Available in the current demo</h3><ul><li>Telegram client connection for ordinary chat</li><li>Secure client portal for file uploads</li><li>Scheduled client document reminders</li><li>Client-folder document organisation</li><li>Optional AI invoice extraction</li><li>Side-by-side review and approval flow</li></ul></article>
               <article className="status-column" data-reveal style={{ '--delay': '100ms' } as React.CSSProperties}><span className="status-pill status-principle">NEXT STEPS</span><h3>Before wider access</h3><ul><li>Security and quality checks</li><li>Private beta with accounting professionals</li><li>Fixes informed by real reviewer feedback</li><li>More complete tests and production hardening</li></ul></article>
@@ -1447,14 +1446,14 @@ function MarketingHome() {
           <div className="ledger-wrap">
             <div className="section-intro" data-reveal><span className="eyebrow">STRAIGHT ANSWERS</span><h2>Frequently asked questions.</h2></div>
             <div className="faq-list">
-              <details><summary>Is TaxFlow AI available now?</summary><p>Not for public use. The desktop product is a working demo in internal testing; we plan to complete security and quality work before any wider beta.</p></details>
+              <details><summary>Is Orvexa AI available now?</summary><p>Not for public use. The desktop product is a working demo in internal testing; we plan to complete security and quality work before any wider beta.</p></details>
               <details><summary>Does it file returns directly with a government portal?</summary><p>No. Government filing is not live. Filing support is a future, jurisdiction-by-jurisdiction plan and depends on authorised channels and explicit human approval.</p></details>
               <details><summary>Does AI make tax decisions or calculate the return?</summary><p>The product direction separates AI-assisted document reading from tax calculations. Calculations require validated rules and review; no autonomous filing is supported.</p></details>
               <details><summary>Can I turn AI document reading off?</summary><p>AI extraction is designed to be optional in the current workflow. Check the deployed product’s settings and <a href="/privacy">privacy notice</a> before submitting real client documents.</p></details>
               <details><summary>Which chat integrations work today?</summary><p>Telegram supports ordinary chat in internal testing. Document files should be uploaded through the invited client portal and are not downloaded or sent by the Telegram integration. WhatsApp is not represented as generally available and requires a configured integration.</p></details>
               <details><summary>Which countries are supported?</summary><p>India is the initial product direction. Additional jurisdictions are on the roadmap and are not a claim of current filing coverage.</p></details>
-              <details><summary>What does joining the waitlist do?</summary><p>It records the details you choose to provide and your consent so TaxFlow can contact you about early access. Joining is free and does not guarantee beta access.</p></details>
-              <details><summary>Is TaxFlow AI independently security certified?</summary><p>No independent security certification is claimed here. Do not upload client documents to marketing or waitlist pages; use the separate client portal only when invited, and verify its data-handling arrangements with your practice.</p></details>
+              <details><summary>What does joining the waitlist do?</summary><p>It records the details you choose to provide and your consent so Orvexa can contact you about early access. Joining is free and does not guarantee beta access.</p></details>
+              <details><summary>Is Orvexa AI independently security certified?</summary><p>No independent security certification is claimed here. Do not upload client documents to marketing or waitlist pages; use the separate client portal only when invited, and verify its data-handling arrangements with your practice.</p></details>
             </div>
             <div className="mobile-sticky-cta"><a className="btn btn-primary" href="/waitlist">Join the waitlist <span className="arrow">→</span></a></div>
           </div>
@@ -1476,7 +1475,7 @@ export function LandingPage() {
           <div className="hero-copy">
             <div className="availability"><span className="availability-pulse" /> A more thoughtful way to run tax work</div>
             <h1>Less time in the paperwork.<br /><em>More time for people.</em></h1>
-            <p className="hero-description">Taxflow helps accounting practices collect documents, review AI-assisted work, and prepare filing outputs—while keeping a person in control at every important step.</p>
+        <p className="hero-description">Orvexa helps accounting practices collect documents, review AI-assisted work, and prepare filing outputs—while keeping a person in control at every important step.</p>
             <div className="hero-actions">
               <a className="button button-dark" href="/waitlist">Request early access <Icon name="arrow" size={17} /></a>
               <a className="text-link" href="/product">Explore the product <span><Icon name="arrow" size={16} /></span></a>
@@ -1525,7 +1524,7 @@ export function LandingPage() {
             <div className="workflow-intro" data-reveal>
               <span className="eyebrow">A VISIBLE, REVIEWABLE FLOW</span>
               <h2>From “please handle this”<br /><em>to ready for review.</em></h2>
-              <p>No mystery hand-offs. Taxflow is designed to show the plan, make progress visible, and pause where your judgement matters.</p>
+        <p>No mystery hand-offs. Orvexa is designed to show the plan, make progress visible, and pause where your judgement matters.</p>
               <a className="inline-link" href="/product#agent-run">See the full workflow <Icon name="arrow" size={16} /></a>
             </div>
             <ol className="workflow-list">
@@ -1556,7 +1555,7 @@ export function LandingPage() {
             </div>
             <div className="comparison-divider"><span>OR</span></div>
             <div className="comparison-column taxflow-column">
-              <div className="comparison-title"><span className="comparison-icon"><Icon name="spark" size={18} /></span><div><span className="eyebrow">A TAXFLOW-ASSISTED WORKFLOW</span><h3>Connected steps. Human sign-off.</h3></div></div>
+            <div className="comparison-title"><span className="comparison-icon"><Icon name="spark" size={18} /></span><div><span className="eyebrow">AN ORVEXA-ASSISTED WORKFLOW</span><h3>Connected steps. Human sign-off.</h3></div></div>
               <div className="assisted-flow">
                 <div className="assisted-node"><span className="node-icon"><Icon name="message" size={15} /></span><span>Collect and organise</span><Icon name="check" size={15} /></div>
                 <div className="assisted-node"><span className="node-icon"><Icon name="spark" size={15} /></span><span>Read and validate</span><Icon name="check" size={15} /></div>
@@ -1649,7 +1648,7 @@ const detailCards = [
     number: '05',
     title: 'Prepare filing work—with clear boundaries.',
     phase: 'PHASED FILING SUPPORT',
-    body: 'The launch direction is India-first and focused on filing-ready files. Filing formats, jurisdictions, and authorised submission channels vary; Taxflow should prepare or submit only where the relevant validation and official channel exist.',
+    body: 'The launch direction is India-first and focused on filing-ready files. Filing formats, jurisdictions, and authorised submission channels vary; Orvexa should prepare or submit only where the relevant validation and official channel exist.',
     bullets: ['India filing preparation is the initial focus', 'Official-format validation is a release requirement', 'Portal submission is never autonomous'],
     icon: 'file' as const
   },
@@ -1675,7 +1674,7 @@ function ProductPage() {
             <a href="/" className="back-link"><Icon name="arrow" size={15} /> Back to overview</a>
             <span className="eyebrow">THE PRODUCT, IN PLAIN LANGUAGE</span>
             <h1>Good automation makes<br /><em>good work easier to see.</em></h1>
-            <p>Here’s what Taxflow is designed to do, how a run works, where the human stays in control, and what is planned for later.</p>
+        <p>Here’s what Orvexa is designed to do, how a run works, where the human stays in control, and what is planned for later.</p>
             <div className="product-status-note"><span className="status-dot" /><span><strong>Important context</strong> — The PRD describes a product vision. The current application is a working demo; not every feature on this page is available today.</span></div>
           </div>
         </section>
@@ -1708,7 +1707,7 @@ function ProductPage() {
         </section>
 
         <section className="section section-wrap comparison-detail" data-reveal>
-          <div className="comparison-head"><div><span className="eyebrow">WHERE THE TIME GOES</span><h2>Shift effort from entry<br /><em>toward informed review.</em></h2></div><p>Many practice workflows involve repeating the same hand-offs. Taxflow’s design aims to connect those steps—not to remove the professional from the decision.</p></div>
+        <div className="comparison-head"><div><span className="eyebrow">WHERE THE TIME GOES</span><h2>Shift effort from entry<br /><em>toward informed review.</em></h2></div><p>Many practice workflows involve repeating the same hand-offs. Orvexa’s design aims to connect those steps—not to remove the professional from the decision.</p></div>
           <div className="effort-compare">
             <div><span className="effort-label">A DISCONNECTED PROCESS</span><div className="effort-stages"><span className="effort-long">Request</span><span className="effort-long">Find</span><span className="effort-long">Read</span><span className="effort-long">Re-key</span><span className="effort-long">Recheck</span><span className="effort-short">Review</span></div><p>Effort is spread across searching, transcribing, checking, and following up.</p></div>
             <div><span className="effort-label">A CONNECTED, REVIEWABLE FLOW</span><div className="effort-stages assisted-stages"><span>Collect</span><span>Structure</span><span>Validate</span><span className="effort-human">Human review</span></div><p>Automation can handle repetitive preparation; professional attention stays focused on flagged work and approval.</p></div>
@@ -1734,7 +1733,7 @@ function ProductPage() {
         </section>
 
         <section className="product-cta section-wrap">
-          <div><span className="eyebrow">FOLLOW THE PRODUCT</span><h2>Want to see where<br /><em>Taxflow goes next?</em></h2><p>Join the early-access list and follow the work as it moves from demo toward a product.</p></div>
+        <div><span className="eyebrow">FOLLOW THE PRODUCT</span><h2>Want to see where<br /><em>Orvexa goes next?</em></h2><p>Join the early-access list and follow the work as it moves from demo toward a product.</p></div>
           <a className="button button-dark" href="/waitlist">Join the waitlist <Icon name="arrow" size={16} /></a>
         </section>
       </main>
@@ -1758,15 +1757,15 @@ function LegalPage({ kind }: { kind: 'privacy' | 'terms' }) {
       },
       {
         title: 'Where a submission goes',
-        paragraphs: ['When configured, the form sends your information to the existing TaxFlow Supabase project or to the waitlist endpoint configured for this website. If neither is configured, the form clearly identifies preview mode and keeps its demo submission in this browser only. This site also stores your theme preference in your browser.']
+        paragraphs: ['When configured, the form sends your information to the existing Orvexa Supabase project or to the waitlist endpoint configured for this website. If neither is configured, the form clearly identifies preview mode and keeps its demo submission in this browser only. This site also stores your theme preference in your browser.']
       },
       {
         title: 'Service providers and storage',
-        paragraphs: ['The website host and any configured waitlist provider process information needed to deliver the site and store submissions. Client-portal files are transmitted to the Taxflow backend and stored in a private Supabase Storage bucket; they are then available to the authorized practice and may be copied to its configured desktop vault. Hosting, API, authentication, and storage providers process information to operate these services under their own terms. The browser does not receive the backend service-role key or direct access to private file storage.']
+        paragraphs: ['The website host and any configured waitlist provider process information needed to deliver the site and store submissions. Client-portal files are transmitted to the Orvexa backend and stored in a private Supabase Storage bucket; they are then available to the authorized practice and may be copied to its configured desktop vault. Hosting, API, authentication, and storage providers process information to operate these services under their own terms. The browser does not receive the backend service-role key or direct access to private file storage.']
       },
       {
-        title: 'TaxFlow workspace data',
-        paragraphs: ['When you use the TaxFlow desktop workspace, we process account details such as your name, email address, practice type, membership number when provided, authentication records, onboarding status, and security logs. If you use client management, we process the client details you enter, including names, contact details, tax identifiers, filing categories, and the relationship between your practice and its clients.']
+        title: 'Orvexa workspace data',
+        paragraphs: ['When you use the Orvexa desktop workspace, we process account details such as your name, email address, practice type, membership number when provided, authentication records, onboarding status, and security logs. If you use client management, we process the client details you enter, including names, contact details, tax identifiers, filing categories, and the relationship between your practice and its clients.']
       },
       {
         title: 'Documents and AI-assisted reading',
@@ -1778,7 +1777,7 @@ function LegalPage({ kind }: { kind: 'privacy' | 'terms' }) {
       },
       {
         title: 'Security, retention, and deletion',
-        paragraphs: ['TaxFlow uses authenticated access, ownership checks, private storage, server-side secrets, rate limits, audit records, and versioned document handling as product safeguards. No internet service can promise absolute security. Practices control their client records and should follow their professional retention duties. Account or client deletion requests trigger the configured cleanup workflow for linked metadata, portal access, files, and related records; backup or provider retention may take longer to expire. Contact the practice that controls a client matter, or reply to a TaxFlow early-access email for a website waitlist request.']
+        paragraphs: ['Orvexa uses authenticated access, ownership checks, private storage, server-side secrets, rate limits, audit records, and versioned document handling as product safeguards. No internet service can promise absolute security. Practices control their client records and should follow their professional retention duties. Account or client deletion requests trigger the configured cleanup workflow for linked metadata, portal access, files, and related records; backup or provider retention may take longer to expire. Contact the practice that controls a client matter, or reply to an Orvexa early-access email for a website waitlist request.']
       },
       {
         title: 'Analytics and site performance',
@@ -1786,7 +1785,7 @@ function LegalPage({ kind }: { kind: 'privacy' | 'terms' }) {
       },
       {
         title: 'Your choices and deletion',
-        paragraphs: ['You can choose not to join, and you can stop receiving updates by following the instructions in an email from TaxFlow AI. To ask for a waitlist record to be removed, reply to an early-access email you received from us. For portal access or document-retention requests, contact the practice that invited you; revoking portal access prevents future portal requests but does not itself delete files already received or copies saved by the practice. A fixed deletion schedule has not yet been published.']
+        paragraphs: ['You can choose not to join, and you can stop receiving updates by following the instructions in an email from Orvexa AI. To ask for a waitlist record to be removed, reply to an early-access email you received from us. For portal access or document-retention requests, contact the practice that invited you; revoking portal access prevents future portal requests but does not itself delete files already received or copies saved by the practice. A fixed deletion schedule has not yet been published.']
       },
       {
         title: 'Choices, changes, and questions',
@@ -1796,7 +1795,7 @@ function LegalPage({ kind }: { kind: 'privacy' | 'terms' }) {
     : [
       {
         title: 'About this website',
-        paragraphs: ['These terms cover your use of the TaxFlow AI marketing website, early-access waitlist, and client portal. Portal access is available only to clients invited by a practice. TaxFlow AI is in development; website descriptions, previews, and product plans are informational and may change.']
+        paragraphs: ['These terms cover your use of the Orvexa AI marketing website, early-access waitlist, and client portal. Portal access is available only to clients invited by a practice. Orvexa AI is in development; website descriptions, previews, and product plans are informational and may change.']
       },
       {
         title: 'The waitlist is not product access',
@@ -1842,8 +1841,8 @@ function LegalPage({ kind }: { kind: 'privacy' | 'terms' }) {
             <span className="eyebrow">{isPrivacy ? 'YOUR INFORMATION, EXPLAINED' : 'THE RULES OF THE ROAD'}</span>
             <h1>{isPrivacy ? <>A clear note on<br /><em>your privacy.</em></> : <>Straightforward<br /><em>website terms.</em></>}</h1>
             <p>{isPrivacy
-              ? 'Here is what the TaxFlow AI website collects when you join the waitlist, how it is used, and the choices you have.'
-              : 'A plain-language guide to using this website and joining the early-access list while TaxFlow AI is in development.'}</p>
+              ? 'Here is what the Orvexa AI website collects when you join the waitlist, how it is used, and the choices you have.'
+              : 'A plain-language guide to using this website and joining the early-access list while Orvexa AI is in development.'}</p>
             <span className="legal-updated">LAST UPDATED · 21 NOVEMBER 2026</span>
           </div>
         </section>
@@ -1858,7 +1857,7 @@ function LegalPage({ kind }: { kind: 'privacy' | 'terms' }) {
               </div>
             </article>
           ))}
-          <p className="legal-disclaimer"><Icon name="info" size={15} /> Client portal files are sent to the Taxflow backend and stored in private Supabase Storage for access by the authorized practice. Hosting, API, and storage providers process information to operate the service. This summary is not a substitute for the applicable product terms or legal advice.</p>
+          <p className="legal-disclaimer"><Icon name="info" size={15} /> Client portal files are sent to the Orvexa backend and stored in private Supabase Storage for access by the authorized practice. Hosting, API, and storage providers process information to operate the service. This summary is not a substitute for the applicable product terms or legal advice.</p>
         </section>
       </main>
       <Footer productPage />
@@ -1902,7 +1901,7 @@ function ResetPasswordPage() {
         if (!active) return;
         if ((event === 'PASSWORD_RECOVERY' || event === 'SIGNED_IN') && session) {
           setStatus('ready');
-          setMessage('Choose a new password for your TaxFlow AI account.');
+        setMessage('Choose a new password for your Orvexa AI account.');
         }
       });
       unsubscribe = () => listener.subscription.unsubscribe();
@@ -1929,7 +1928,7 @@ function ResetPasswordPage() {
 
       window.history.replaceState({}, document.title, '/reset-password');
       setStatus('ready');
-      setMessage('Choose a new password for your TaxFlow AI account.');
+      setMessage('Choose a new password for your Orvexa AI account.');
     };
 
     void prepareRecovery();
@@ -1964,7 +1963,7 @@ function ResetPasswordPage() {
     setPassword('');
     setConfirmPassword('');
     setStatus('success');
-    setMessage('Your password has been updated. You can now return to TaxFlow AI and sign in.');
+      setMessage('Your password has been updated. You can now return to Orvexa AI and sign in.');
   };
 
   const isBusy = status === 'checking' || status === 'saving';
@@ -1986,9 +1985,9 @@ function ResetPasswordPage() {
       <div className="reset-orbit reset-orbit-one" aria-hidden="true" />
       <div className="reset-orbit reset-orbit-two" aria-hidden="true" />
       <header className="reset-header">
-        <a href="/" className="wordmark" aria-label="TaxFlow AI home">
+        <a href="/" className="wordmark" aria-label="Orvexa home">
           <BrandGlyph />
-          <span>TaxFlow</span><em className="brand-ai">AI</em>
+          <span>Orvexa</span>
         </a>
         <a className="reset-back-link" href="/">Back to website</a>
       </header>
@@ -2009,7 +2008,7 @@ function ResetPasswordPage() {
             <Icon name={status === 'success' ? 'check' : status === 'error' ? 'x' : 'lock'} size={21} />
           </div>
           <div className="reset-card-heading">
-            <span className="eyebrow">TaxFlow account</span>
+                <span className="eyebrow">Orvexa account</span>
             <h2>{status === 'success' ? 'Password updated' : status === 'error' ? 'Recovery link unavailable' : 'Set your new password'}</h2>
             <p>{message}</p>
           </div>
@@ -2080,13 +2079,13 @@ function ResetPasswordPage() {
           {status === 'success' && (
             <div className="reset-success-actions">
               <button className="button button-dark reset-submit reset-success-link" type="button" onClick={continueToDesktopApp} disabled={desktopHandoff === 'opening'}>
-                {desktopHandoff === 'opening' ? 'Opening TaxFlow AI…' : 'Continue to TaxFlow AI'} <Icon name="arrow" size={17} />
+                {desktopHandoff === 'opening' ? 'Opening Orvexa AI…' : 'Continue to Orvexa AI'} <Icon name="arrow" size={17} />
               </button>
-              {desktopHandoff === 'unavailable' && <p className="reset-handoff-error" role="alert">TaxFlow AI could not be opened on this computer. Open the installed app manually, then sign in with your new password.</p>}
+              {desktopHandoff === 'unavailable' && <p className="reset-handoff-error" role="alert">Orvexa AI could not be opened on this computer. Open the installed app manually, then sign in with your new password.</p>}
             </div>
           )}
-          {status === 'error' && <a className="reset-retry-link" href="/">Return to TaxFlow AI</a>}
-          <p className="reset-security-note"><Icon name="shield" size={14} /> TaxFlow AI will never ask you to share your password by email.</p>
+          {status === 'error' && <a className="reset-retry-link" href="/">Return to Orvexa AI</a>}
+          <p className="reset-security-note"><Icon name="shield" size={14} /> Orvexa AI will never ask you to share your password by email.</p>
         </div>
       </section>
     </main>
@@ -2097,7 +2096,7 @@ function App() {
   useEffect(() => {
     const path = window.location.pathname.replace(/\/+$/, '') || '/';
     const page = siteMetadata.pages.find((entry) => entry.path === path);
-    document.title = page ? `${page.title} | TaxFlow AI` : 'Page not found | TaxFlow AI';
+      document.title = page ? `${page.title} | Orvexa AI` : 'Page not found | Orvexa AI';
     const description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     if (page && description) description.content = page.description;
     let robots = document.querySelector<HTMLMetaElement>('meta[name="robots"]');

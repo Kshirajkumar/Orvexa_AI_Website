@@ -568,9 +568,9 @@ export function ClientPortalPage() {
       <div className="portal-background-glow portal-background-glow-one" />
       <div className="portal-background-glow portal-background-glow-two" />
       <header className="portal-header">
-        <a href="/" className="portal-wordmark" aria-label="Orvexa AI home">
-          <img className="portal-logo portal-logo-light" src="/taxflow-ai-logo.svg" alt="Orvexa AI" />
-          <img className="portal-logo portal-logo-dark" src="/taxflow-ai-logo-dark.svg" alt="Orvexa AI" />
+        <a href="/" className="portal-wordmark" aria-label="Orvexa home">
+          <img className="portal-logo portal-logo-light" src="/orvexa-logo.svg" alt="Orvexa" />
+          <img className="portal-logo portal-logo-dark" src="/orvexa-logo-dark.svg" alt="Orvexa" />
         </a>
         <div className="portal-header-right">
           <span className="portal-secure-label"><PortalIcon name="lock" size={14} /> PRIVATE CLIENT PORTAL</span>
@@ -784,7 +784,7 @@ export function ClientPortalPage() {
       </section>
 
       <footer className="portal-footer">
-        <span>© {new Date().getFullYear()} Orvexa AI</span>
+        <span>© {new Date().getFullYear()} Orvexa</span>
         <span><PortalIcon name="lock" size={12} /> Secure client document portal</span>
         <a href="/privacy">Privacy notice</a>
       </footer>

@@ -41,19 +41,19 @@ TaxFlow AI is workflow-support software in development. It is not an autonomous 
 ## Product and workflow
 
 - [Meet Orvexa. It handles the work. You handle what matters.](https://orvvexa.vercel.app): Orvexa provides intelligent automation for the work that takes time, so you can focus on the decisions that take expertise. Topics: Tax practice workflow, Document collection, Solo Chartered Accountants, Human review, India-first tax software.
-- [TaxFlow AI product details](https://orvvexa.vercel.app/product): See how TaxFlow AI is designed to organize tax documents, assist data preparation, and keep review decisions with the accountant. Topics: Tax software features, Document organization, AI-assisted data capture, Accountant review, Product roadmap.
-- [TaxFlow AI workflow comparison](https://orvvexa.vercel.app/workflow-comparison): Compare a common document-heavy accounting workflow with the connected workflow TaxFlow AI is being designed to support. Topics: Accounting workflow, Tax document processing, Practice operations, Human oversight.
-- [TaxFlow AI desktop app](https://orvvexa.vercel.app/get-app): Learn about the TaxFlow AI desktop workspace for independent Chartered Accountants. The app is in development and not yet available to install. Topics: Tax software for desktop, Solo Chartered Accountants, Practice workspace, Early access.
+- [Orvexa AI product details](https://orvvexa.vercel.app/product): See how Orvexa AI is designed to organize tax documents, assist data preparation, and keep review decisions with the accountant. Topics: Tax software features, Document organization, AI-assisted data capture, Accountant review, Product roadmap.
+- [Orvexa AI workflow comparison](https://orvvexa.vercel.app/workflow-comparison): Compare a common document-heavy accounting workflow with the connected workflow Orvexa AI is being designed to support. Topics: Accounting workflow, Tax document processing, Practice operations, Human oversight.
+- [Orvexa AI desktop app](https://orvvexa.vercel.app/get-app): Learn about the Orvexa AI desktop workspace for independent Chartered Accountants. The app is in development and not yet available to install. Topics: Tax software for desktop, Solo Chartered Accountants, Practice workspace, Early access.
 
 ## Access and policies
 
-- [Join the TaxFlow AI waitlist](https://orvvexa.vercel.app/waitlist): Join the TaxFlow AI early-access waitlist for solo Chartered Accountants and receive occasional product updates. Topics: Tax software early access, Chartered Accountant waitlist, TaxFlow AI updates.
-- [TaxFlow AI invited-client portal](https://orvvexa.vercel.app/portal): Invited clients can use the TaxFlow AI portal to securely share supported documents with their accounting practice. Topics: Invited-client portal, Private document sharing, Accounting practice.
-- [TaxFlow AI privacy notice](https://orvvexa.vercel.app/privacy): Read how the TaxFlow AI website, waitlist, Vercel analytics, and invited-client portal collect and handle information. Topics: Tax software privacy, Website analytics, Web performance data, Waitlist data, Client portal, Document handling.
-- [TaxFlow AI website terms](https://orvvexa.vercel.app/terms): Review the terms for using the TaxFlow AI website, early-access waitlist, and invited-client portal. Topics: Website terms, Early access, Client portal use, Professional advice.
+- [Join the Orvexa AI waitlist](https://orvvexa.vercel.app/waitlist): Join the Orvexa AI early-access waitlist for solo Chartered Accountants and receive occasional product updates. Topics: Tax software early access, Chartered Accountant waitlist, Orvexa AI updates.
+- [Orvexa AI invited-client portal](https://orvvexa.vercel.app/portal): Invited clients can use the Orvexa AI portal to securely share supported documents with their accounting practice. Topics: Invited-client portal, Private document sharing, Accounting practice.
+- [Orvexa AI privacy notice](https://orvvexa.vercel.app/privacy): Read how the Orvexa AI website, waitlist, Vercel analytics, and invited-client portal collect and handle information. Topics: Tax software privacy, Website analytics, Web performance data, Waitlist data, Client portal, Document handling.
+- [Orvexa AI website terms](https://orvvexa.vercel.app/terms): Review the terms for using the Orvexa AI website, early-access waitlist, and invited-client portal. Topics: Website terms, Early access, Client portal use, Professional advice.
 
 The client portal is a private destination for clients invited by a practice; it is not public signup.
 
 ## Website navigation
 
-- [TaxFlow AI website directory](https://orvvexa.vercel.app/sitemap): Browse the TaxFlow AI website by page, with clear descriptions of the product, workflows, waitlist, client portal, and policies. Topics: TaxFlow AI website pages, Website directory, Product information, Client portal.
+- [Orvexa AI website directory](https://orvvexa.vercel.app/sitemap): Browse the Orvexa AI website by page, with clear descriptions of the product, workflows, waitlist, client portal, and policies. Topics: Orvexa AI website pages, Website directory, Product information, Client portal.
