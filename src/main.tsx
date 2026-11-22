@@ -1320,8 +1320,8 @@ function MarketingHome() {
           <div className="ledger-wrap hero-layout">
             <div className="hero-copy hero-copy-ledger">
               <p className="eyebrow"><span className="status-dot-live" /> EARLY ACCESS <i /> WAITLIST OPEN</p>
-              <h1 id="home-title">Less busywork.<br /><span className="hero-highlight">More time to advise.</span></h1>
-              <p className="hero-lede">TaxFlow AI is designed to automate repetitive document work—from client file collection and AI-assisted data capture to review preparation—so accountants can spend less time on manual steps and keep the final say.</p>
+              <h1 id="home-title">Meet Orvexa.<br /><span className="hero-highlight">It handles the work. You handle what matters.</span></h1>
+              <p className="hero-lede">Intelligent automation for the work that takes time—so you can focus on the decisions that take expertise.</p>
               <div className="hero-actions-ledger">
                 <a className="btn btn-primary btn-lg" href="/waitlist">Join the waitlist <span className="arrow">→</span></a>
                 <a className="btn btn-ghost btn-lg" href="#how-it-works">See how it works</a>
