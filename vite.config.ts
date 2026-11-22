@@ -125,7 +125,6 @@ export default defineConfig(({ mode }) => {
     define: {
       __SUPABASE_URL__: JSON.stringify(env.SUPABASE_URL ?? ''),
       __SUPABASE_PUBLISHABLE_KEY__: JSON.stringify(env.SUPABASE_PUBLISHABLE_KEY ?? ''),
-      __API_URL__: JSON.stringify(env.API_URL ?? '')
     },
     server: {
       port: 5174,

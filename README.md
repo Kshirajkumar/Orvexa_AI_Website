@@ -38,7 +38,7 @@ The website uses the same Supabase project as the TaxFlow app. The marketing wai
 
 1. Follow the root [`BACKEND_GUIDE.md`](../BACKEND_GUIDE.md) client-portal deployment steps. Apply `services/backend/db/client_portal.sql` and `services/backend/db/client_portal_invites.sql` after the base schema and private storage-bucket migration, and make sure `services/backend/db/create_api_rate_limits.sql` has been applied.
 2. On the backend, set `CLIENT_PORTAL_URL` to the exact website origin (HTTPS in production) and set `SUPABASE_STORAGE_BUCKET` to the private intake bucket. The backend must use `SUPABASE_SECRET_KEY`; never copy it into this website.
-3. On the website, set `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` to the existing project's public values, and set `API_URL` to the backend origin. The public Supabase key is used for password sign-in; all invitation validation, account creation, access checks, and uploads are performed by the backend.
+3. On the website, set `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` to the existing project's public values. The website always calls `https://orvexa-ai-8vbc.onrender.com` for invitation validation, account creation, access checks, and uploads.
 4. No Supabase Auth email provider or email redirect is required for portal enrollment. Create a portal invitation from the desktop app or create a Telegram account-link invitation; send the private link only to the client whose email is recorded on that client record.
 5. Verify the bucket is private and test an invitation, a small supported file upload, desktop sync, access revocation, and rejection of an oversized or unsupported file before production use.
 
@@ -60,7 +60,7 @@ Import this website repository into Vercel and configure:
 - **Root directory:** `./` (the repository root)
 - **Build command:** `npm run build`
 - **Output directory:** `dist`
-- **Environment variables:** `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, and `API_URL`. Use the same existing Supabase project URL and publishable key as local development, and set `API_URL` to the deployed TaxFlow backend origin (for example, `https://taxflow-ai.onrender.com`). Add them for every Vercel environment you deploy (Production, Preview, and Development as applicable), then redeploy.
+- **Environment variables:** `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`. The website backend origin is fixed to `https://orvexa-ai-8vbc.onrender.com` in the client and does not depend on a Vercel `API_URL` override.
 
 The Supabase URL and publishable key are public browser configuration values, not secrets. Vite explicitly embeds only these named values in the site; `SUPABASE_SECRET_KEY` is never passed through. Never set `SUPABASE_SECRET_KEY` in the website project. If `/portal` displays “Secure sign-in is not available,” the site was built without valid `SUPABASE_URL` or `SUPABASE_PUBLISHABLE_KEY`; correct the Vercel variables and redeploy because source changes cannot supply those project-specific values. Delete any previous `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, or `SUPABASE_ANON_KEY` entries.
 

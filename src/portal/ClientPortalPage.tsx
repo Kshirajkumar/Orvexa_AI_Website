@@ -3,9 +3,7 @@ import type { Session } from '@supabase/supabase-js';
 import { isSupabaseConfigured, supabase } from '../lib/supabase';
 import './client-portal.css';
 
-const API_ORIGIN = String(
-  __API_URL__ || (import.meta.env.DEV ? 'http://127.0.0.1:5000' : 'https://taxflow-ai.onrender.com'),
-).replace(/\/+$/, '');
+const API_ORIGIN = 'https://orvexa-ai-8vbc.onrender.com';
 const MAX_FILE_BYTES = 20 * 1024 * 1024;
 const ACCEPTED_FILES = '.pdf,.png,.jpg,.jpeg,.webp,.csv,.xlsx';
 
@@ -111,7 +109,7 @@ function getPortalAuthErrorMessage(requestError: unknown, mode: 'register' | 'si
       case 'invalid_email':
         return 'Check the email address and make sure it exactly matches the address your practice has on file.';
       case 'email_in_use_by_non_portal_account':
-        return 'This email is already used for a TaxFlow practice account. Ask your CA for a different client email address.';
+        return 'This email is already used for an Orvexa practice account. Ask your CA for a different client email address.';
       case 'portal_auth_rate_limited':
         return 'Too many attempts were made. Please wait a few minutes before trying again.';
       case 'portal_auth_configuration':
@@ -302,7 +300,7 @@ export function ClientPortalPage() {
   }, [inviteToken, registrationHandoffEmail]);
 
   useEffect(() => {
-    document.title = 'Secure client portal — Taxflow.AI';
+    document.title = 'Secure client portal — Orvexa AI';
     if (!isSupabaseConfigured || !supabase) {
       setError('The client portal sign-in service is not configured. Please contact your practice.');
       setAuthReady(true);
@@ -570,9 +568,9 @@ export function ClientPortalPage() {
       <div className="portal-background-glow portal-background-glow-one" />
       <div className="portal-background-glow portal-background-glow-two" />
       <header className="portal-header">
-        <a href="/" className="portal-wordmark" aria-label="Taxflow AI home">
-          <img className="portal-logo portal-logo-light" src="/taxflow-ai-logo.svg" alt="TaxFlow.AI" />
-          <img className="portal-logo portal-logo-dark" src="/taxflow-ai-logo-dark.svg" alt="TaxFlow.AI" />
+        <a href="/" className="portal-wordmark" aria-label="Orvexa AI home">
+          <img className="portal-logo portal-logo-light" src="/taxflow-ai-logo.svg" alt="Orvexa AI" />
+          <img className="portal-logo portal-logo-dark" src="/taxflow-ai-logo-dark.svg" alt="Orvexa AI" />
         </a>
         <div className="portal-header-right">
           <span className="portal-secure-label"><PortalIcon name="lock" size={14} /> PRIVATE CLIENT PORTAL</span>
@@ -630,7 +628,7 @@ export function ClientPortalPage() {
               <div>
                 <span className="portal-eyebrow"><i /> YOUR SECURE WORKSPACE</span>
                 <h1>Welcome, <em>{portal.client.name}</em></h1>
-                <p>Upload documents directly to your practice. Your files are only available to the authorized Taxflow team.</p>
+                <p>Upload documents directly to your practice. Your files are only available to the authorized Orvexa team.</p>
               </div>
               <div className="portal-welcome-art" aria-hidden="true">
                 <span className="portal-art-orbit orbit-a" />
@@ -786,7 +784,7 @@ export function ClientPortalPage() {
       </section>
 
       <footer className="portal-footer">
-        <span>© {new Date().getFullYear()} Taxflow.AI</span>
+        <span>© {new Date().getFullYear()} Orvexa AI</span>
         <span><PortalIcon name="lock" size={12} /> Secure client document portal</span>
         <a href="/privacy">Privacy notice</a>
       </footer>
