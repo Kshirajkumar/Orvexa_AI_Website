@@ -1148,7 +1148,7 @@ function InvoiceScene() {
       <figcaption className="scene-caption">
         <p key={step}>{sceneCaptions[step]}</p>
         <div className="scene-controls">
-          <span className="scene-progress" aria-label={`Step ${step + 1} of ${sceneCaptions.length}`}>
+          <span className="scene-progress" role="img" aria-label={`Step ${step + 1} of ${sceneCaptions.length}`}>
             {sceneCaptions.map((caption, index) => <i className={index <= step ? 'progress-on' : ''} key={caption} />)}
           </span>
           <button
@@ -1421,10 +1421,10 @@ function MarketingHome() {
           <div className="ledger-wrap">
             <div className="section-intro" data-reveal><span className="eyebrow">SECURITY &amp; TRUST</span><h2>Why you can check the work,<br />not just trust a black box.</h2><p className="lede">These are intended product guardrails—not claims of an independent security audit or certification.</p></div>
             <div className="trust-grid">
-              <article data-reveal><Icon name="eye" size={21} /><h3>The source stays visible</h3><p>Review extracted details alongside the original document and check what a value came from.</p></article>
-              <article data-reveal style={{ '--delay': '60ms' } as React.CSSProperties}><Icon name="shield" size={21} /><h3>A person approves</h3><p>AI preparation does not replace a human approval step for consequential work.</p></article>
-              <article data-reveal style={{ '--delay': '120ms' } as React.CSSProperties}><Icon name="calculator" size={21} /><h3>Reading is not calculation</h3><p>Tax calculations and filing rules require dedicated validation—not AI guesses.</p></article>
-              <article data-reveal style={{ '--delay': '180ms' } as React.CSSProperties}><Icon name="lock" size={21} /><h3>Be clear about the limits</h3><p>Orvexa AI is in development; independent certification and live government filing are not claimed.</p></article>
+              <article data-reveal><Icon name="eye" size={28} /><h3>The source stays visible</h3><p>Review extracted details alongside the original document and check what a value came from.</p></article>
+              <article data-reveal style={{ '--delay': '60ms' } as React.CSSProperties}><Icon name="shield" size={28} /><h3>A person approves</h3><p>AI preparation does not replace a human approval step for consequential work.</p></article>
+              <article data-reveal style={{ '--delay': '120ms' } as React.CSSProperties}><Icon name="calculator" size={28} /><h3>Reading is not calculation</h3><p>Tax calculations and filing rules require dedicated validation—not AI guesses.</p></article>
+              <article data-reveal style={{ '--delay': '180ms' } as React.CSSProperties}><Icon name="lock" size={28} /><h3>Be clear about the limits</h3><p>Orvexa AI is in development; independent certification and live government filing are not claimed.</p></article>
             </div>
             <div className="honest-panel" data-reveal><h3>What is not live today</h3><p>Government filing is not live. The broader roadmap, production security hardening, and public availability are phased product goals—not features to assume are available.</p></div>
           </div>
@@ -1971,7 +1971,7 @@ function ResetPasswordPage() {
   const continueToDesktopApp = () => {
     setDesktopHandoff('opening');
     try {
-      window.location.href = 'taxflow://auth/password-reset-success';
+      window.location.href = 'orvexa://auth/password-reset-success';
       window.setTimeout(() => {
         if (document.visibilityState === 'visible') setDesktopHandoff('unavailable');
       }, 1800);
