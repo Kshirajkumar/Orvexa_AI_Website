@@ -6,6 +6,17 @@ import './client-portal.css';
 const API_ORIGIN = 'https://orvexa-ai-8vbc.onrender.com';
 const MAX_FILE_BYTES = 20 * 1024 * 1024;
 const ACCEPTED_FILES = '.pdf,.png,.jpg,.jpeg,.webp,.csv,.xlsx';
+const ACCEPTED_EXTENSIONS = new Set(['.pdf', '.png', '.jpg', '.jpeg', '.webp', '.csv', '.xlsx']);
+const MIME_TO_EXTENSION: Record<string, string> = {
+  'application/pdf': '.pdf',
+  'image/png': '.png',
+  'image/jpeg': '.jpg',
+  'image/webp': '.webp',
+  'text/csv': '.csv',
+  'text/plain': '.csv',
+  'application/vnd.ms-excel': '.csv',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': '.xlsx',
+};
 
 type PortalDocument = {
   id: string;
@@ -75,6 +86,83 @@ function formatBytes(bytes: number) {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function getFileExtension(fileName: string) {
+  const lastDot = fileName.lastIndexOf('.');
+  return lastDot > 0 ? fileName.slice(lastDot).toLowerCase() : '';
+}
+
+function normalizeClipboardFile(file: File): File {
+  const trimmedName = (file.name || '').trim();
+  const currentExt = getFileExtension(trimmedName);
+  const mappedExt = MIME_TO_EXTENSION[(file.type || '').toLowerCase()] || '';
+  const isGenericImageName = !trimmedName || trimmedName === 'blob' || trimmedName === 'image.png' || trimmedName === 'image';
+
+  if (isGenericImageName && mappedExt) {
+    const now = new Date();
+    const pad = (n: number) => String(n).padStart(2, '0');
+    const stamp = `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+    const prefix = file.type.startsWith('image/') ? 'pasted-image' : 'pasted-document';
+    return new File([file], `${prefix}-${stamp}${mappedExt}`, {
+      type: file.type,
+      lastModified: file.lastModified || Date.now(),
+    });
+  }
+
+  if (!currentExt && mappedExt) {
+    return new File([file], `${trimmedName}${mappedExt}`, {
+      type: file.type,
+      lastModified: file.lastModified || Date.now(),
+    });
+  }
+
+  return file;
+}
+
+function validatePortalFile(file: File): string | null {
+  if (file.size <= 0) {
+    return `“${file.name || 'This file'}” is empty (0 bytes) and cannot be uploaded.`;
+  }
+  if (file.size > MAX_FILE_BYTES) {
+    return 'This file is larger than 20 MB. Choose a smaller file or contact the practice.';
+  }
+  const ext = getFileExtension(file.name);
+  const mime = (file.type || '').toLowerCase();
+  const hasSupportedExt = ACCEPTED_EXTENSIONS.has(ext);
+  const hasSupportedMime = !mime || mime === 'application/octet-stream' || Boolean(MIME_TO_EXTENSION[mime]);
+  if (!hasSupportedExt || !hasSupportedMime) {
+    return `Unsupported file type (${file.name || mime || 'unknown'}). Supported formats: PDF, PNG, JPG, WEBP, CSV, XLSX.`;
+  }
+  return null;
+}
+
+function extractClipboardFiles(clipboardData: DataTransfer | null): File[] {
+  if (!clipboardData) return [];
+  const collected: File[] = [];
+  if (clipboardData.files && clipboardData.files.length > 0) {
+    for (let i = 0; i < clipboardData.files.length; i += 1) {
+      const file = clipboardData.files.item(i);
+      if (file) collected.push(file);
+    }
+    return collected;
+  }
+  if (clipboardData.items && clipboardData.items.length > 0) {
+    for (let i = 0; i < clipboardData.items.length; i += 1) {
+      const item = clipboardData.items[i];
+      if (item && item.kind === 'file') {
+        const file = item.getAsFile();
+        if (file) collected.push(file);
+      }
+    }
+  }
+  return collected;
+}
+
+function isEditableTarget(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false;
+  const tagName = target.tagName;
+  return tagName === 'INPUT' || tagName === 'TEXTAREA' || tagName === 'SELECT' || target.isContentEditable;
 }
 
 function formatDate(value: string) {
@@ -181,11 +269,16 @@ export function ClientPortalPage() {
   const [inviteStatusNotice, setInviteStatusNotice] = useState('');
   const [authenticating, setAuthenticating] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [pastedFile, setPastedFile] = useState<File | null>(null);
+  const [pastedPreviewUrl, setPastedPreviewUrl] = useState<string | null>(null);
+  const [pasteCardNote, setPasteCardNote] = useState('');
+  const [pasteError, setPasteError] = useState('');
   const [dragging, setDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [notice, setNotice] = useState('');
   const [error, setError] = useState('');
   const fileInput = useRef<HTMLInputElement>(null);
+  const pasteConfirmButton = useRef<HTMLButtonElement>(null);
   const authFlowInProgress = useRef(false);
 
   const handlePortalAccessRevoked = useCallback(async (message?: string, code?: string) => {
@@ -385,17 +478,88 @@ export function ClientPortalPage() {
     };
   }, [handlePortalAccessRevoked, portal, session?.access_token]);
 
+  const clearPastedFile = useCallback(() => {
+    setPastedFile(null);
+    setPasteCardNote('');
+    setPasteError('');
+  }, []);
+
   const chooseFile = useCallback((file?: File) => {
     setError('');
     setNotice('');
     if (!file) return;
-    if (file.size > MAX_FILE_BYTES) {
+    const validationError = validatePortalFile(file);
+    if (validationError) {
       setSelectedFile(null);
-      setError('This file is larger than 20 MB. Choose a smaller file or contact the practice.');
+      setError(validationError);
       return;
     }
     setSelectedFile(file);
   }, []);
+
+  useEffect(() => {
+    if (!pastedFile || !pastedFile.type.startsWith('image/')) {
+      setPastedPreviewUrl(null);
+      return undefined;
+    }
+    const objectUrl = URL.createObjectURL(pastedFile);
+    setPastedPreviewUrl(objectUrl);
+    return () => {
+      URL.revokeObjectURL(objectUrl);
+    };
+  }, [pastedFile]);
+
+  useEffect(() => {
+    if (!pastedFile) return undefined;
+    pasteConfirmButton.current?.focus();
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && !uploading) {
+        event.preventDefault();
+        clearPastedFile();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [clearPastedFile, pastedFile, uploading]);
+
+  useEffect(() => {
+    const isDashboardActive = Boolean(portal && session && authReady && !loadingPortal);
+    if (!isDashboardActive) return undefined;
+
+    const handlePaste = (event: ClipboardEvent) => {
+      if (isEditableTarget(event.target)) return;
+      const files = extractClipboardFiles(event.clipboardData);
+      if (!files.length) return;
+
+      event.preventDefault();
+      if (uploading) {
+        setError('Please wait for the current upload to finish before pasting another file.');
+        return;
+      }
+
+      const normalized = normalizeClipboardFile(files[0]);
+      const validationError = validatePortalFile(normalized);
+      if (validationError) {
+        clearPastedFile();
+        setNotice('');
+        setError(validationError);
+        return;
+      }
+
+      setError('');
+      setNotice('');
+      setPasteError('');
+      setPasteCardNote(
+        files.length > 1
+          ? `1 of ${files.length} clipboard files selected (only one file can be uploaded at a time).`
+          : '',
+      );
+      setPastedFile(normalized);
+    };
+
+    window.addEventListener('paste', handlePaste);
+    return () => window.removeEventListener('paste', handlePaste);
+  }, [authReady, clearPastedFile, loadingPortal, portal, session, uploading]);
 
   async function authenticatePortal(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -502,11 +666,12 @@ export function ClientPortalPage() {
     }
   }
 
-  async function uploadSelectedFile() {
-    if (!selectedFile || !session?.access_token || uploading) return;
+  async function performUpload(file: File, source: 'selected' | 'pasted') {
+    if (!session?.access_token || uploading) return;
     setUploading(true);
     setError('');
     setNotice('');
+    if (source === 'pasted') setPasteError('');
     let uploadSaved = false;
     try {
       const response = await fetch(portalApiUrl('/api/v1/client-portal/documents'), {
@@ -514,15 +679,19 @@ export function ClientPortalPage() {
         headers: {
           Authorization: `Bearer ${session.access_token}`,
           'Content-Type': 'application/octet-stream',
-          'X-File-Name': encodeURIComponent(selectedFile.name),
-          'X-File-Mime-Type': selectedFile.type || 'application/octet-stream',
+          'X-File-Name': encodeURIComponent(file.name),
+          'X-File-Mime-Type': file.type || 'application/octet-stream',
         },
-        body: selectedFile,
+        body: file,
       });
       await readResponse<PortalDocument>(response);
       uploadSaved = true;
-      setSelectedFile(null);
-      if (fileInput.current) fileInput.current.value = '';
+      if (source === 'pasted') {
+        clearPastedFile();
+      } else {
+        setSelectedFile(null);
+        if (fileInput.current) fileInput.current.value = '';
+      }
       setNotice('Your file was received securely and is now available to your practice.');
       try {
         const data = await getPortalData(session.access_token);
@@ -531,18 +700,35 @@ export function ClientPortalPage() {
         setError('Your file was received, but the upload history could not refresh. Reload this page to check its status.');
       }
     } catch (requestError) {
-      if (requestError instanceof PortalRequestError && ['client_deleted', 'portal_access_revoked'].includes(requestError.code || '')) {
-        await handlePortalAccessRevoked(requestError.message);
+      if (requestError instanceof PortalRequestError && ['client_deleted', 'portal_access_revoked', 'portal_access_paused'].includes(requestError.code || '')) {
+        clearPastedFile();
+        await handlePortalAccessRevoked(requestError.message, requestError.code);
       } else {
-        setError(requestError instanceof Error
+        const message = requestError instanceof Error
           ? requestError.message
           : uploadSaved
             ? 'Your file was received, but the portal could not refresh.'
-            : 'The file could not be uploaded. Your original file has not been changed.');
+            : 'The file could not be uploaded. Your original file has not been changed.';
+        if (source === 'pasted' && !uploadSaved) {
+          setPasteError(message);
+        } else {
+          if (source === 'pasted') clearPastedFile();
+          setError(message);
+        }
       }
     } finally {
       setUploading(false);
     }
+  }
+
+  async function uploadSelectedFile() {
+    if (!selectedFile) return;
+    await performUpload(selectedFile, 'selected');
+  }
+
+  async function uploadPastedFile() {
+    if (!pastedFile) return;
+    await performUpload(pastedFile, 'pasted');
   }
 
   async function signOut() {
@@ -669,7 +855,7 @@ export function ClientPortalPage() {
                   {selectedFile ? (
                     <><strong>{selectedFile.name}</strong><span>{formatBytes(selectedFile.size)} · Click to choose another</span></>
                   ) : (
-                    <><strong>Drop your file here</strong><span>or <u>browse your device</u></span></>
+                    <><strong>Drop or paste your file here</strong><span>or <u>browse your device</u> · Ctrl+V</span></>
                   )}
                 </button>
                 <div className="portal-upload-meta"><span>PDF, PNG, JPG, WEBP, CSV, XLSX</span><span>Up to 20 MB</span></div>
@@ -788,6 +974,90 @@ export function ClientPortalPage() {
         <span><PortalIcon name="lock" size={12} /> Secure client document portal</span>
         <a href="/privacy">Privacy notice</a>
       </footer>
+
+      {portal && session && pastedFile && (
+        <div
+          className="portal-paste-backdrop"
+          role="presentation"
+          onClick={(event) => {
+            if (event.target === event.currentTarget && !uploading) {
+              clearPastedFile();
+            }
+          }}
+        >
+          <div
+            className="portal-paste-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="portal-paste-title"
+            aria-describedby="portal-paste-question"
+          >
+            <div className="portal-paste-card-head">
+              <span className="portal-heading-icon"><PortalIcon name="upload" size={17} /></span>
+              <div>
+                <span className="portal-eyebrow">CLIPBOARD FILE DETECTED</span>
+                <h2 id="portal-paste-title">Do you want to upload this file?</h2>
+              </div>
+            </div>
+
+            <div className="portal-paste-file-box">
+              {pastedPreviewUrl ? (
+                <div className="portal-paste-preview">
+                  <img src={pastedPreviewUrl} alt={`Preview of ${pastedFile.name}`} />
+                </div>
+              ) : (
+                <div className="portal-paste-file-badge" aria-hidden="true">
+                  <PortalIcon name="file" size={24} />
+                  <span>{getFileExtension(pastedFile.name).replace('.', '').toUpperCase() || 'FILE'}</span>
+                </div>
+              )}
+              <div className="portal-paste-file-meta">
+                <strong title={pastedFile.name}>{pastedFile.name}</strong>
+                <span>{formatBytes(pastedFile.size)} · {getFileExtension(pastedFile.name).replace('.', '').toUpperCase() || 'Document'}</span>
+              </div>
+            </div>
+
+            <p id="portal-paste-question" className="portal-paste-question">
+              Clicking <strong>Yes</strong> will upload this file securely to your practice.
+            </p>
+
+            {pasteCardNote && (
+              <div className="portal-feedback portal-feedback-warning" role="status">
+                <PortalIcon name="shield" size={16} />
+                <span>{pasteCardNote}</span>
+              </div>
+            )}
+
+            {pasteError && (
+              <div className="portal-feedback portal-feedback-error" role="alert">
+                {pasteError}
+              </div>
+            )}
+
+            <div className="portal-paste-actions">
+              <button
+                type="button"
+                className="portal-paste-cancel"
+                disabled={uploading}
+                onClick={clearPastedFile}
+              >
+                No, cancel
+              </button>
+              <button
+                ref={pasteConfirmButton}
+                type="button"
+                className="portal-upload-button"
+                disabled={uploading}
+                onClick={() => void uploadPastedFile()}
+              >
+                {uploading
+                  ? <><span className="portal-button-spinner" /> Uploading securely…</>
+                  : <>Yes, upload file <PortalIcon name="arrow" size={16} /></>}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

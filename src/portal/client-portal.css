@@ -405,3 +405,196 @@
   .portal-main { padding-top: 38px; }
   .portal-login-copy h1 { letter-spacing: -2.2px; }
 }
+
+/* Clipboard paste confirmation card */
+.portal-paste-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(10, 17, 32, .48);
+  backdrop-filter: blur(8px);
+  animation: portal-rise .2s cubic-bezier(.2,.7,.2,1) both;
+}
+
+.portal-paste-card {
+  width: min(460px, 100%);
+  padding: 24px;
+  border: 1px solid rgba(185, 199, 222, .85);
+  border-radius: 17px;
+  background: rgba(255, 255, 255, .97);
+  box-shadow: 0 28px 80px rgba(16, 33, 57, .22), 0 4px 14px rgba(16, 33, 57, .08);
+  animation: portal-card-in .24s cubic-bezier(.2,.7,.2,1) both;
+}
+
+.portal-paste-card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.portal-paste-card-head h2 {
+  margin: 5px 0 0;
+  color: var(--portal-ink);
+  font: 600 20px/1.2 'Bricolage Grotesque', sans-serif;
+  letter-spacing: -.4px;
+}
+
+.portal-paste-file-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  border: 1px solid var(--portal-line);
+  border-radius: 12px;
+  background: #f6f8fc;
+}
+
+.portal-paste-preview {
+  width: 64px;
+  height: 64px;
+  flex: none;
+  overflow: hidden;
+  border: 1px solid var(--portal-line);
+  border-radius: 10px;
+  background: white;
+}
+
+.portal-paste-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.portal-paste-file-badge {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  flex: none;
+  place-items: center;
+  align-content: center;
+  gap: 3px;
+  border: 1px solid #dce4ff;
+  border-radius: 10px;
+  color: var(--portal-blue);
+  background: #edf1ff;
+}
+
+.portal-paste-file-badge span {
+  font: 600 9px 'IBM Plex Mono', monospace;
+  letter-spacing: .06em;
+}
+
+.portal-paste-file-meta {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.portal-paste-file-meta strong {
+  overflow: hidden;
+  color: var(--portal-ink);
+  font-size: 13px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.portal-paste-file-meta span {
+  color: var(--portal-muted);
+  font: 500 11px 'IBM Plex Mono', monospace;
+}
+
+.portal-paste-question {
+  margin: 14px 0 0;
+  color: var(--portal-muted);
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+.portal-paste-question strong {
+  color: var(--portal-ink);
+  font-weight: 600;
+}
+
+.portal-paste-actions {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.portal-paste-cancel {
+  min-height: 50px;
+  padding: 0 18px;
+  border: 1px solid var(--portal-line);
+  border-radius: 10px;
+  color: var(--portal-ink);
+  background: white;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color .2s, background .2s, color .2s;
+}
+
+.portal-paste-cancel:hover:not(:disabled) {
+  border-color: #aab8d2;
+  background: #f5f7fb;
+}
+
+.portal-paste-cancel:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+.portal-paste-cancel:focus-visible {
+  outline: 3px solid rgba(49, 87, 232, .28);
+  outline-offset: 2px;
+}
+
+.client-portal[data-theme="dark"] .portal-paste-backdrop {
+  background: rgba(4, 8, 16, .68);
+}
+
+.client-portal[data-theme="dark"] .portal-paste-card {
+  border-color: rgba(83, 103, 140, .55);
+  background: rgba(12, 20, 37, .97);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, .48), 0 4px 14px rgba(0, 0, 0, .25);
+}
+
+.client-portal[data-theme="dark"] .portal-paste-file-box {
+  border-color: #293852;
+  background: #111b31;
+}
+
+.client-portal[data-theme="dark"] .portal-paste-preview {
+  border-color: #33425f;
+  background: #0a1120;
+}
+
+.client-portal[data-theme="dark"] .portal-paste-file-badge {
+  border-color: #2a3c61;
+  color: #9aafff;
+  background: #172541;
+}
+
+.client-portal[data-theme="dark"] .portal-paste-cancel {
+  border-color: #33425f;
+  color: #dce5f8;
+  background: #111b31;
+}
+
+.client-portal[data-theme="dark"] .portal-paste-cancel:hover:not(:disabled) {
+  border-color: #4f648c;
+  background: #162341;
+}
+
+@media (max-width: 480px) {
+  .portal-paste-card { padding: 20px; }
+  .portal-paste-actions { grid-template-columns: 1fr; }
+  .portal-paste-cancel { order: 2; }
+}
